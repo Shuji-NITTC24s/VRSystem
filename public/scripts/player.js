@@ -44,27 +44,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     socket.on('sceneUpdate', (sceneName) => {
         console.log('🔁 シーン更新:', sceneName);
-        // Set sky texture
-        let textureId;
-        if (sceneName === 'ocean') {
-            textureId = '#ocean';
-        } else if (sceneName === 'sky') {
-            textureId = '#sky';
-        } else {
-            textureId = '#sky'; // default
+        // Only handle gltf scene
+        if (sceneName === 'gltf') {
+            // Remove the sky and add the gltf model
+            const sphere = document.getElementById('sphere');
+            if (sphere) sphere.parentNode.removeChild(sphere);
+            if (!document.getElementById('gltf-scene')) {
+                const scene = document.querySelector('a-scene');
+                const gltf = document.createElement('a-entity');
+                gltf.setAttribute('id', 'gltf-scene');
+                gltf.setAttribute('gltf-model', 'assets/scene.gltf');
+                gltf.setAttribute('scale', '1 1 1'); // Adjust as needed
+                gltf.setAttribute('position', '0 -550 -3'); // Adjust as needed
+                scene.appendChild(gltf);
+            }
+            // Hide overlay and mark game as started
+            const overlay = document.getElementById('black-overlay');
+            if (overlay) overlay.style.display = 'none';
+            gameStarted = true;
         }
-        const sphere = document.getElementById('sphere');
-        if (textureId) {
-            sphere.removeAttribute('color');
-            sphere.setAttribute('src', textureId);
-        }
-
-        // Hide black overlay on first sceneUpdate
-        const overlay = document.getElementById('black-overlay');
-        if (overlay) overlay.style.display = 'none';
-
-        // Mark game as started so box can spawn
-        gameStarted = true;
     });
 
     socket.on('boxPosition', (pos) => {
