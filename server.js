@@ -34,14 +34,8 @@ io.on('connection', (socket) => {
             storyStage++;
             io.emit('storyProgress', storyStage);
             console.log(`📖 ストーリー進行: ステージ${storyStage}`);
-
-            // Always emit the correct scene for the current stage
-            let sceneName = 'ocean';
-            if (storyStage === 1) {
-                sceneName = 'sky';
-            }
-            // Add more stages if needed
-            io.emit('sceneUpdate', sceneName);
+            // Always emit 'gltf' so the client loads the gltf model
+            io.emit('sceneUpdate', 'gltf');
         }
     }
 

@@ -83,17 +83,23 @@
             <audio id="ding" src="assets/ding.mp3"></audio>
         </a-assets>
 
-        <a-entity camera wasd-controls look-controls raycaster="objects: .clickable">
+        <a-entity id="player" camera wasd-controls look-controls raycaster="objects: .clickable">
+            <!-- Flashlight: a spotlight attached to the camera, pointing forward -->
+            <a-entity 
+                light="type: spot; color: #fff; intensity: 8; angle: 30; penumbra: 0.3; distance: 30; decay: 2; target: #flashlight-target"
+                position="0 0 0.1">
+            </a-entity>
+            <!-- The target entity for the spotlight, always in front of the camera -->
+            <a-entity id="flashlight-target" position="0 0 -1"></a-entity>
             <a-cursor color="red"></a-cursor>
             <a-entity geometry="primitive: plane"
                 material="color: yellow; opacity: 0.2; transparent: true; depthTest: false;" scale="7 0.17 1"
                 position="0 0.25 -1" render-order="hud"></a-entity>
-            <a-entity id="hud" material="depthTest:false;" align="left" render-order="hudText">
+            <a-entity id="hud" material="shader: flat; emissive: #fff; emissiveIntensity: 1; depthTest:false;" align="center" render-order="hudText">
                 <!-- scale and position will be set by player.js -->
             </a-entity>
         </a-entity>
-
-        <!-- The sky and related images have been removed -->
+        <!-- No ambient or directional lights, only the flashlight -->
     </a-scene>
 </body>
 

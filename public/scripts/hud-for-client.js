@@ -15,6 +15,7 @@ var HUDFC /* HUD For Client */ = (() => {
             hud.setAttribute("color", "black");
             hud.setAttribute("font", "dejavu");
             hud.setAttribute("scale", `${0.6 * absZ} ${0.6 * absZ} 1`);
+            hud.setAttribute("align", "center");
             hud.setAttribute("material", "depthTest: false;");
             hud.setAttribute("render-order", "hud");
             return hud;
