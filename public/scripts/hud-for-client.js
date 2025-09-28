@@ -15,6 +15,7 @@ var HUDFC /* HUD For Client */ = (() => {
             hud.setAttribute("color", "black");
             hud.setAttribute("font", "dejavu");
             hud.setAttribute("scale", `${0.6 * absZ} ${0.6 * absZ} 1`);
+            hud.setAttribute("align", "center");
             hud.setAttribute("material", "depthTest: false;");
             hud.setAttribute("render-order", "hud");
             return hud;
@@ -23,7 +24,7 @@ var HUDFC /* HUD For Client */ = (() => {
         thinkPointHUDResponsivePosition: function (z) {
             const absZ = Math.abs(z);
             return {
-                x: -5 * 0.05 * absZ * document.getElementsByTagName("a-scene")[0].clientWidth / (10 + document.getElementsByTagName("a-scene")[0].clientHeight),
+                x: 0, // Centered
                 y: 5 * 0.05 * absZ,
                 z: z,
             };

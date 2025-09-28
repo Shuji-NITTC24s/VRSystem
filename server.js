@@ -34,14 +34,8 @@ io.on('connection', (socket) => {
             storyStage++;
             io.emit('storyProgress', storyStage);
             console.log(`📖 ストーリー進行: ステージ${storyStage}`);
-
-            // Always emit the correct scene for the current stage
-            let sceneName = 'ocean';
-            if (storyStage === 1) {
-                sceneName = 'sky';
-            }
-            // Add more stages if needed
-            io.emit('sceneUpdate', sceneName);
+            // Always emit 'gltf' so the client loads the gltf model
+            io.emit('sceneUpdate', 'gltf');
         }
     }
 
@@ -72,11 +66,6 @@ io.on('connection', (socket) => {
     } else {
         console.log(`👑 管理者接続: ${socket.id}`);
     }
-
-    socket.on('sceneChange', (sceneName) => {
-        console.log('📺 シーン変更要求:', sceneName);
-        io.emit('sceneUpdate', sceneName);
-    });
 
     socket.on('hitBox', () => {
         if (!isAdmin && boxHp > 0) {
@@ -129,7 +118,7 @@ io.on('connection', (socket) => {
             enemiesDefeated = 0;
             boxHp = 100;
             boxPos = { x: 0, y: 1, z: -3 };
-            io.emit('sceneUpdate', 'ocean'); // Always start with ocean
+            io.emit('sceneUpdate', 'gltf'); // Always start with scene.gltf
             io.emit('spawnBox', {
                 id: 'movingBox',
                 position: boxPos,
@@ -161,7 +150,7 @@ function randomDirection() {
     let dy = (Math.random() - 0.5) * 0.5; // less vertical movement
     let dz = (Math.random() - 0.5);
     // Normalize
-    const len = Math.sqrt(dx*dx + dy*dy + dz*dz);
+    const len = Math.sqrt(dx * dx + dy * dy + dz * dz);
     return {
         x: dx / len,
         y: dy / len,
